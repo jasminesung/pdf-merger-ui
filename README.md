@@ -1,1 +1,1 @@
-App to merge PDFs (in progress)
+UI for web app to merge PDFs (in progress)
