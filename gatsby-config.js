@@ -13,6 +13,7 @@ module.exports = {
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sitemap",
     "gatsby-plugin-offline",
+    `gatsby-plugin-sass`,
     {
       resolve: "gatsby-plugin-manifest",
       options: {
@@ -37,5 +38,13 @@ module.exports = {
       },
       __key: "pages",
     },
+    // {
+    //   resolve: "gatsby-source-filesystem",
+    //   options: {
+    //     name: "styles",
+    //     path: "./src/styles/",
+    //   },
+    //   __key: "styles",
+    // },
   ],
 };
