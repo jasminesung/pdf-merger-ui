@@ -6,4 +6,27 @@ main {
 .header-wrapper {
     display: flex;
     justify-content: center;
+    margin-bottom: 3%;
+}
+
+.file-input-wrapper {
+    display: none;
+}
+
+.drop-area {
+    width: 50vw;
+    height: 30vh;
+    border: 2px dashed pink;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.drop-area-text {
+    color: gray;
+}
+
+.drop-area-hover {
+    background-color: rgba(228, 219, 219, 0.15);
 }
