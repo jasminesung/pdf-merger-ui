@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Document, Page } from 'react-pdf';
+import { mergePdf } from '../services/MergerService';
 import "../styles/index.scss";
 
 // markup
@@ -35,7 +36,6 @@ const IndexPage = () => {
         setFileList([...fileList, ...inputElement.files])
       }
       setDropHover(false);
-      getThumbnail(new Blob(fileList[0]));
       console.log('input element', inputElement.files);
     })
   })
@@ -49,29 +49,43 @@ const IndexPage = () => {
     setNumPages(numPages);
   }
 
-  const getThumbnail = (file) => {
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
+  const renderThumbnail = (file) => {
+    console.log('file:', file);
+    const fileUrl = URL.createObjectURL(file);
+    console.log('file url', fileUrl);
 
-    reader.onload= () => {
-      console.log(reader.result);
-    }
-
-    reader.onerror = () => {
-      console.error(reader.error);
-    }
+    return (
+      <div className="drop-area-pdf-preview">
+        <iframe title={file.name} src={fileUrl} width='400px' height='400px'></iframe>
+      </div>
+    )
   }
 
-  const renderThumbanil = () => {
-    return (
+  const renderThumbnailList = () => {
+    return !dropHover && fileList.length > 0 ? (
       <div className="drop-area-thumbnail">
         {
-          fileList.map(file => {
-            getThumbnail(file);
+          fileList.map((file, index) => {
+            const fileUrl = URL.createObjectURL(file);
+            return (
+              <div key={index} className="drop-area-pdf-preview">
+              <iframe title={file.name} src={fileUrl} width='100%' height='100%'></iframe>
+              <p>{file.name ? file.name : null}</p>
+            </div>
+            )
           })
         }
       </div>
-    )
+    ) : null;
+  }
+
+  const clearFiles = () => {
+    setFileList([]);
+    setFileUploaded(false);
+  }
+
+  const mergeFiles = () => {
+    return mergePdf(fileList);
   }
 
   const dropAreaClass = dropHover ? 'drop-area drop-area-hover' : 'drop-area';
@@ -86,9 +100,15 @@ const IndexPage = () => {
         onChange={onFileUpload} id="file-input"></input>
       </div>
       <div id="drop-area" className={dropAreaClass}>
+        {renderThumbnailList()}
         <div className="drop-area-text">
-          {!dropHover && !fileUploaded && <p>Drag and drop your PDFs here!</p>}
+          {!dropHover && fileList.length === 0 && <p>Drag and drop your PDFs here!</p>}
         </div>
+      </div>
+      <div className="button-row">
+        <button onClick={clearFiles} role="button" disabled={fileList.length === 0} className="button-row-button">CLEAR</button>
+        <button onClick={mergeFiles} role="button" disabled={fileList.length === 0} className="button-row-button">MERGE</button>
+        <button role="button" disabled={fileList.length === 0} className="button-row-button">DOWNLOAD</button>
       </div>
     </main>
   )
