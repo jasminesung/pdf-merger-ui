@@ -6,9 +6,10 @@ export function mergePdf(file) {
         formData.append(`file ${i}`, file);
     })
 
-    axios.post('http://localhost:5000/merge', formData).then((res) => {
-        console.log(res);
-    }, (err) => {
-        console.error(err);
-    })
+    return axios.post('http://localhost:5000/merge', formData, {
+        headers: {
+            'accept': 'application/pdf'
+        },
+        responseType: 'blob'
+    });
 }

@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import { Document, Page } from 'react-pdf';
 import { mergePdf } from '../services/MergerService';
 import "../styles/index.scss";
 
@@ -8,9 +7,6 @@ const IndexPage = () => {
 
   const [ fileList, setFileList ] = useState([]);
   const [ dropHover, setDropHover ] = useState(false);
-  const [ fileUploaded, setFileUploaded ] = useState(false);
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
 
   useEffect(() => {
     console.log('file list', fileList);
@@ -32,7 +28,6 @@ const IndexPage = () => {
       e.preventDefault();
       if (e.dataTransfer.files) {
         inputElement.files = e.dataTransfer.files;
-        setFileUploaded(true);
         setFileList([...fileList, ...inputElement.files])
       }
       setDropHover(false);
@@ -43,22 +38,6 @@ const IndexPage = () => {
   const onFileUpload = (e) => {
     console.log(e.target.files);
     setFileList([...fileList, e.target.files[0]]);
-  }
-
-  const onDocumentLoad = ({ numPages }) => {
-    setNumPages(numPages);
-  }
-
-  const renderThumbnail = (file) => {
-    console.log('file:', file);
-    const fileUrl = URL.createObjectURL(file);
-    console.log('file url', fileUrl);
-
-    return (
-      <div className="drop-area-pdf-preview">
-        <iframe title={file.name} src={fileUrl} width='400px' height='400px'></iframe>
-      </div>
-    )
   }
 
   const renderThumbnailList = () => {
@@ -81,11 +60,21 @@ const IndexPage = () => {
 
   const clearFiles = () => {
     setFileList([]);
-    setFileUploaded(false);
   }
 
   const mergeFiles = () => {
-    return mergePdf(fileList);
+    return mergePdf(fileList).then((res) => {
+      if (res.status === 200 && res.data) {
+        const link = document.createElement('a');
+        link.download = 'mergedPdf.pdf';
+        const blob = new Blob([res.data], { type: 'application/pdf' });
+        link.href = window.URL.createObjectURL(blob);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }).catch((err) => {
+      console.error(err);
+    });
   }
 
   const dropAreaClass = dropHover ? 'drop-area drop-area-hover' : 'drop-area';
@@ -106,9 +95,8 @@ const IndexPage = () => {
         </div>
       </div>
       <div className="button-row">
-        <button onClick={clearFiles} role="button" disabled={fileList.length === 0} className="button-row-button">CLEAR</button>
-        <button onClick={mergeFiles} role="button" disabled={fileList.length === 0} className="button-row-button">MERGE</button>
-        <button role="button" disabled={fileList.length === 0} className="button-row-button">DOWNLOAD</button>
+        <button onClick={clearFiles} disabled={fileList.length === 0} className="button-row-button">CLEAR</button>
+        <button onClick={mergeFiles} disabled={fileList.length === 0} className="button-row-button">MERGE</button>
       </div>
     </main>
   )
