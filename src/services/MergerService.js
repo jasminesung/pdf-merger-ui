@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { BASE_URL, MERGE_PATH } from '../constants';
 
 export function mergePdf(file) {
     let formData = new FormData();
@@ -6,7 +7,7 @@ export function mergePdf(file) {
         formData.append(`file ${i}`, file);
     })
 
-    return axios.post('http://localhost:5000/merge', formData, {
+    return axios.post(`${BASE_URL}${MERGE_PATH}`, formData, {
         headers: {
             'accept': 'application/pdf'
         },

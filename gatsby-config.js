@@ -1,7 +1,9 @@
 module.exports = {
   siteMetadata: {
     title: "pdf merger",
+    siteUrl: "https://jasminesung.github.io"
   },
+  pathPrefix: "/pdf-merger-ui",
   plugins: [
     {
       resolve: "gatsby-plugin-google-analytics",

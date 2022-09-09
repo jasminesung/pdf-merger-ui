@@ -8,11 +8,12 @@
     "gatsby"
   ],
   "scripts": {
-    "develop": "gatsby develop",
-    "start": "gatsby develop",
-    "build": "gatsby build",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean"
+    "develop": "npx gatsby develop",
+    "start": "npx gatsby develop",
+    "build": "npx gatsby build",
+    "serve": "npx gatsby serve",
+    "clean": "npx gatsby clean",
+    "deploy": "npx gatsby build --prefix-paths && gh-pages -d public"
   },
   "license": "0BSD",
   "dependencies": {
@@ -31,6 +32,7 @@
     "gatsby-plugin-sitemap": "^2.9.0",
     "gatsby-source-filesystem": "^2.8.1",
     "gatsby-transformer-sharp": "^2.9.0",
+    "gh-pages": "^4.0.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

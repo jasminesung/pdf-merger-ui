@@ -9,7 +9,6 @@ const IndexPage = () => {
   const [ dropHover, setDropHover ] = useState(false);
 
   useEffect(() => {
-    console.log('file list', fileList);
     const dropArea = document.getElementById('drop-area');
     const inputElement = document.getElementById('file-input');
 
