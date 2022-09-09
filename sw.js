@@ -27,17 +27,17 @@ workbox.core.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-33ce8eec5a91a3d5076d.js"
+    "url": "webpack-runtime-b2c118b8708cec000b49.js"
   },
   {
     "url": "framework-3e6dec6139dadaa7d0c7.js"
   },
   {
-    "url": "app-6d7e5eb198ce18390116.js"
+    "url": "app-dc4d72fe54c3f137eab4.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "f4c929a1167d08977163f6d0696c3bac"
+    "revision": "8e6ccd02fd0f1bb7c517e38920741e71"
   },
   {
     "url": "component---cache-caches-gatsby-plugin-offline-app-shell-js-19245c8506e49b502b12.js"
@@ -48,14 +48,14 @@ self.__precacheManifest = [
   },
   {
     "url": "page-data/app-data.json",
-    "revision": "c9b0e0554354d1a79f2e548f11bcf748"
+    "revision": "21f4e497d25c3168d713a3d093afc14e"
   },
   {
     "url": "polyfill-058a0cee7fa5777b59c0.js"
   },
   {
     "url": "manifest.webmanifest",
-    "revision": "1530e197c6cb6d89f85ff827a32a3137"
+    "revision": "2b3bc73ea12022431325c6e57d3bfc0e"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
@@ -142,12 +142,12 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   lastNavigationRequest = event.request.url
 
   let { pathname } = new URL(event.request.url)
-  pathname = pathname.replace(new RegExp(`^/pdf-merger`), ``)
+  pathname = pathname.replace(new RegExp(`^/pdf-merger-ui`), ``)
 
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/pdf-merger/app-6d7e5eb198ce18390116.js`))) {
+  if (!resources || !(await caches.match(`/pdf-merger-ui/app-dc4d72fe54c3f137eab4.js`))) {
     return await fetch(event.request)
   }
 
@@ -160,7 +160,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
     }
   }
 
-  const offlineShell = `/pdf-merger/offline-plugin-app-shell-fallback/index.html`
+  const offlineShell = `/pdf-merger-ui/offline-plugin-app-shell-fallback/index.html`
   const offlineShellWithKey = workbox.precaching.getCacheKeyForURL(offlineShell)
   return await caches.match(offlineShellWithKey)
 })
