@@ -6,6 +6,7 @@ import "../styles/index.scss";
 const IndexPage = () => {
 
   const [ fileList, setFileList ] = useState([]);
+  
   const [ dropHover, setDropHover ] = useState(false);
 
   useEffect(() => {
